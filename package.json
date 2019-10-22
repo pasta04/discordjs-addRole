@@ -1,0 +1,28 @@
+{
+  "name": "discordjs-addrole",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "dependencies": {
+    "config": "^3.1.0",
+    "discord.js": "^11.5.1"
+  },
+  "devDependencies": {
+    "@types/config": "^0.0.34",
+    "@types/node": "^12.11.2",
+    "prettier": "^1.18.2",
+    "ts-node": "^8.2.0",
+    "tslint": "^5.17.0",
+    "tslint-config-prettier": "^1.18.0",
+    "tslint-plugin-prettier": "^2.0.1",
+    "typescript": "^3.6.4"
+  },
+  "scripts": {
+    "start": "node build/js/index.js",
+    "devstart": "ts-node --files src/js/index.ts",
+    "build": "tsc",
+    "tslint-check": "tslint-config-prettier-check ./tslint.json",
+    "lint": "tslint src/**/*.ts"
+  },
+  "license": "MIT"
+}
