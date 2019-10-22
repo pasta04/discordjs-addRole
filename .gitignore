@@ -61,28 +61,3 @@ typings/
 # next.js build output
 .next
 
-# db
-*.mdb
-*.db*
-*.lz4
-*.csv
-*.unity3d
-*.wav
-*.hca
-*.acb
-data/unpack/*
-data/tmp/*
-work
-*.million
-data/*.json
-data/mltd/tmp/**/*.png
-data/mltd/unpack/**/*.png
-data/gbp/*.json
-data/gbp/AssetBundleInfo
-
-# ランキングで生成される画像
-*_eventpoint_*
-*_highscore_*
-
-# ガチャ
-gacha10.png
