@@ -29,6 +29,14 @@ const main = async () => {
 
     // オフライン勢も含めてサーバの全メンバーを取得する
     const guildFullMembers = await guild.fetchMembers();
+    const targetMember = guildFullMembers.members.filter(member => {
+      return members.includes(member.id);
+    });
+
+    // 操作対象として指定されているのにサーバにいない人をチェック
+    for (const member of members) {
+      if (!targetMember.get(member)) console.warn(`サーバにいない： ${member}`);
+    }
 
     // 付与する権限の表示名を取得
     const role = guild.roles.get(config.roleId);
@@ -38,20 +46,20 @@ const main = async () => {
     // リストに合致したメンバーに権限付与
     const mangementType = config.roleRemove ? '削除' : '追加';
     console.log(`以下のメンバーについて ${roleName} の権限${mangementType}`);
-    guildFullMembers.members.map(async member => {
-      if (members.includes(member.id)) {
-        console.log(`${member.user.tag} (${member.id})`);
-        if (config.roleRemove) {
-          await member.removeRole(config.roleId);
-        } else {
-          await member.addRole(config.roleId);
-        }
+
+    for (const member of targetMember) {
+      console.log(`${member[1].id} ${member[1].user.tag}`);
+      if (config.roleRemove) {
+        await member[1].removeRole(config.roleId);
+      } else {
+        await member[1].addRole(config.roleId);
       }
-    });
+    }
 
     // ログアウト
     client.destroy();
   } catch (error) {
+    console.error('何かエラーがあった');
     console.error(error);
     process.exit();
   }
