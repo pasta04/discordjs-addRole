@@ -80,7 +80,6 @@ export const readFileText = (filePath: string, code: string): Promise<string> =>
   });
 };
 
-// なんかテストしたい人用に関数に切った
 (() => {
   main();
 })();
