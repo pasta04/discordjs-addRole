@@ -27,8 +27,19 @@ const main = async () => {
     const guild = client.guilds.get(config.guildId);
     if (!guild) throw new Error('操作対象のサーバ情報を取得できません。');
 
+    console.log(`サーバ名: ${guild.name}`);
+
     // オフライン勢も含めてサーバの全メンバーを取得する
     const guildFullMembers = await guild.fetchMembers();
+
+    console.log('メンバーは以下');
+    for (const member of guildFullMembers.members) {
+      console.log(`${member[1].user.id} ${member[1].user.tag}`);
+    }
+
+    console.log('=============================');
+
+    // 付与対象に絞り込み
     const targetMember = guildFullMembers.members.filter(member => {
       return members.includes(member.id);
     });
@@ -37,6 +48,8 @@ const main = async () => {
     for (const member of members) {
       if (!targetMember.get(member)) console.warn(`サーバにいない： ${member}`);
     }
+
+    console.log('=============================');
 
     // 付与する権限の表示名を取得
     const role = guild.roles.get(config.roleId);
@@ -50,9 +63,9 @@ const main = async () => {
     for (const member of targetMember) {
       console.log(`${member[1].id} ${member[1].user.tag}`);
       if (config.roleRemove) {
-        await member[1].removeRole(config.roleId);
+        await member[1].removeRole(config.roleId).catch(console.error);
       } else {
-        await member[1].addRole(config.roleId);
+        await member[1].addRole(config.roleId).catch(console.error);
       }
     }
 
