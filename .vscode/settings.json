@@ -11,5 +11,6 @@
   "javascript.updateImportsOnFileMove.enabled": "always",
   "typescript.preferences.quoteStyle": "single",
   "window.zoomLevel": 0,
-  "terminal.integrated.scrollback": 20000
+  "terminal.integrated.scrollback": 20000,
+  "typescript.tsdk": "node_modules\\typescript\\lib"
 }

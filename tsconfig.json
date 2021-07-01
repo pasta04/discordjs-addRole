@@ -6,12 +6,14 @@
     "target": "esnext",
     "sourceMap": true,
     "allowJs": true,
+    "noImplicitAny": false,
     "moduleResolution": "node",
     "rootDir": "src",
     "forceConsistentCasingInFileNames": true,
     "esModuleInterop": true,
     "strict": true,
-    "importHelpers": true
+    "importHelpers": true,
+    "typeRoots": ["src/types", "node_modules/@types"]
   },
   "include": ["src/**/*"],
   "exclude": ["node_modules", "build", "scripts", "acceptance-tests", "webpack", "jest", "src/setupTests.ts"]

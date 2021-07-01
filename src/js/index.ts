@@ -23,24 +23,35 @@ const main = async () => {
     await client.login(token);
     if (!client.user) throw new Error('ログインに失敗しました。');
 
-    // 操作対象のサーバ取得
-    const guild = client.guilds.get(config.guildId);
-    if (!guild) throw new Error('操作対象のサーバ情報を取得できません。');
+    // 何か裏でいろいろしてるので準備完了を待つ
+    await (async () => {
+      return new Promise<void>((resolve, reject) => {
+        client.once('ready', () => {
+          console.log('Ready!');
+          resolve();
+        });
+      });
+    })();
 
+    // 操作対象のサーバ取得
+    const guild = await client.guilds.fetch(config.guildId);
+    if (!guild) throw new Error('操作対象のサーバ情報を取得できません。');
     console.log(`サーバ名: ${guild.name}`);
 
     // オフライン勢も含めてサーバの全メンバーを取得する
-    const guildFullMembers = await guild.fetchMembers();
+    await guild.members.fetch();
+    const guildFullMembers = guild.members.cache;
 
-    console.log('メンバーは以下');
-    for (const member of guildFullMembers.members) {
-      console.log(`${member[1].user.id} ${member[1].user.tag}`);
-    }
+    // 全メンバーを確認したい時は以下のコメントアウトを外す
+    // console.log('メンバーは以下');
+    // for (const member of guildFullMembers) {
+    //   console.log(`"${member[1].user.id}", "${member[1].user.tag}"`);
+    // }
 
     console.log('=============================');
 
     // 付与対象に絞り込み
-    const targetMember = guildFullMembers.members.filter(member => {
+    const targetMember = guildFullMembers.filter((member) => {
       return members.includes(member.id);
     });
 
@@ -52,7 +63,7 @@ const main = async () => {
     console.log('=============================');
 
     // 付与する権限の表示名を取得
-    const role = guild.roles.get(config.roleId);
+    const role = guild.roles.cache.get(config.roleId);
     if (!role) throw new Error('操作対象のサーバに指定した権限が存在しません。');
     const roleName = role.name;
 
@@ -63,9 +74,9 @@ const main = async () => {
     for (const member of targetMember) {
       console.log(`${member[1].id} ${member[1].user.tag}`);
       if (config.roleRemove) {
-        await member[1].removeRole(config.roleId).catch(console.error);
+        await member[1].roles.remove(role);
       } else {
-        await member[1].addRole(config.roleId).catch(console.error);
+        await member[1].roles.add(role);
       }
     }
 
