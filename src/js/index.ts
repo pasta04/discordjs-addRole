@@ -67,12 +67,18 @@ const main = async () => {
     if (!role) throw new Error('操作対象のサーバに指定した権限が存在しません。');
     const roleName = role.name;
 
+    // 付与する権限に既に割り当てられてる人
+    // console.log('既に割り当てられてる人');
+    // for (const member of role.members) {
+    //   console.log(`"${member[1].user.id}", "${member[1].user.tag}"`);
+    // }
+
     // リストに合致したメンバーに権限付与
     const mangementType = config.roleRemove ? '削除' : '追加';
     console.log(`以下のメンバーについて ${roleName} の権限${mangementType}`);
 
     for (const member of targetMember) {
-      console.log(`${member[1].id} ${member[1].user.tag}`);
+      console.log(`"${member[1].id}", "${member[1].user.tag}"`);
       if (config.roleRemove) {
         await member[1].roles.remove(role);
       } else {
