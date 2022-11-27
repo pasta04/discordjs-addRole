@@ -12,11 +12,14 @@ yarn
 
 `config/default.json`に以下を適宜設定
 
-| key          | 説明                                                                                |
-| ------------ | ----------------------------------------------------------------------------------- |
-| guildId      | 操作対象のサーバ ID                                                                 |
-| roleId       | 付与する権限の ID                                                                   |
-| discordToken | Discord の認証トークン。Config に無ければ環境変数 NODE_ENV_DISCORD_TOKEN を使用する |
+```json
+{
+  "roleRemove": false, // trueにすると逆に権限を削除します
+  "guildId": "操作対象のサーバID",
+  "roleId": "付与する権限のID",
+  "discordToken": "Discordの認証トークン。Configに無ければ環境変数 NODE_ENV_DISCORD_TOKEN を使用する"
+}
+```
 
 ## 下準備 3 設定 2
 

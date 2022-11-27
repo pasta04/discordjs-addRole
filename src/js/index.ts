@@ -42,13 +42,14 @@ const main = async () => {
     await guild.members.fetch();
     const guildFullMembers = guild.members.cache;
 
-    // 全メンバーを確認したい時は以下のコメントアウトを外す
-    // console.log('メンバーは以下');
-    // for (const member of guildFullMembers) {
-    //   console.log(`"${member[1].user.id}", "${member[1].user.tag}"`);
-    // }
-
-    console.log('=============================');
+    // 全メンバーを確認
+    console.log('メンバーを出力');
+    let list = `"名前", "ID"\n`;
+    for (const member of guildFullMembers) {
+      const line = `"${member[1].user.tag}", "${member[1].user.id}"`
+      list += `${line}\n`;
+    }
+    fs.writeFileSync("data/allmember.csv", list);
 
     // 付与対象に絞り込み
     const targetMember = guildFullMembers.filter((member) => {
@@ -57,9 +58,8 @@ const main = async () => {
 
     // 操作対象として指定されているのにサーバにいない人をチェック
     for (const member of members) {
-      if (!targetMember.get(member)) console.warn(`サーバにいない： ${member}`);
+      if (member && !targetMember.get(member)) console.warn(`サーバにいない： ${member}`);
     }
-
     console.log('=============================');
 
     // 付与する権限の表示名を取得
@@ -68,10 +68,11 @@ const main = async () => {
     const roleName = role.name;
 
     // 付与する権限に既に割り当てられてる人
-    // console.log('既に割り当てられてる人');
-    // for (const member of role.members) {
-    //   console.log(`"${member[1].user.id}", "${member[1].user.tag}"`);
-    // }
+    console.log('既に割り当てられてる人');
+    for (const member of role.members) {
+      console.log(`"${member[1].user.id}", "${member[1].user.tag}"`);
+    }
+    console.log('=============================');
 
     // リストに合致したメンバーに権限付与
     const mangementType = config.roleRemove ? '削除' : '追加';
