@@ -20,6 +20,7 @@
   },
   "scripts": {
     "start": "ts-node --files src/js/index.ts",
+    "all": "ts-node --files src/js/all.ts",
     "build": "tsc",
     "lint": "tslint src/**/*.ts"
   },
